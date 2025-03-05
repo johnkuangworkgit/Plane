@@ -5,12 +5,12 @@
 export const NETWORK = {
     // WebSocket server URL
     // Use this constant whenever you need to connect to the WebSocket server
-    WS_URL: 'ws://141.95.17.225:8080',
+    WS_URL: 'ws://plane-zp6f.onrender.com:8080',
     
     // Function to get WebSocket URL with protocol based on page security
     getSecureWsUrl: () => {
         const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        return `${protocol}//141.95.17.225:8080`;
+        return `${protocol}//plane-zp6f.onrender.com:8080`;
     }
 };
 
