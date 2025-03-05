@@ -2,6 +2,7 @@
 import * as THREE from 'three';
 import PlaneFactory from '../entities/PlaneFactory.js';
 import AmmoSystem from '../entities/AmmoSystem.js';
+import { NETWORK } from '../utils/config.js';
 
 export default class NetworkManager {
     constructor(eventBus, playerPlane) {
@@ -27,7 +28,7 @@ export default class NetworkManager {
      * @param {Object} data - Connection data including server URL
      */
     connect(data = {}) {
-        const serverUrl = data.serverUrl || 'ws://141.95.17.225:8080';
+        const serverUrl = data.serverUrl || NETWORK.WS_URL;
 
         try {
             console.log(`Connecting to multiplayer server at ${serverUrl}...`);

@@ -7,6 +7,7 @@ import UIManager from '../ui/UIManager.js';
 import PlaneFactory from '../entities/PlaneFactory.js';
 import EventBus from './EventBus.js';
 import NetworkManager from './NetworkManager.js';
+import { NETWORK } from '../utils/config.js';
 
 export default class Game {
     constructor() {
@@ -92,7 +93,7 @@ export default class Game {
             this.networkManager = new NetworkManager(this.eventBus, this.playerPlane);
 
             // Connect to server
-            const serverUrl = urlParams.get('server') || 'ws://141.95.17.225:8080';
+            const serverUrl = urlParams.get('server') || NETWORK.WS_URL;
             this.eventBus.emit('network.connect', { serverUrl });
 
             // Add multiplayer UI indicators
