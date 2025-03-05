@@ -13,8 +13,7 @@ export default class NetworkManager {
         this.clientId = null;
         this.remotePlanes = new Map(); // Map of remote planes by client ID
         this.lastUpdateTime = 0;
-        this.updateInterval = 100; // Reduced from 50ms to 100ms (10 updates/second)
-        this.interpolationFactor = 0.1; // For smooth movement
+        this.updateInterval = 50; // Send updates every 50ms (20 updates/second)
 
         // Listen for connection events
         this.eventBus.on('network.connect', this.connect.bind(this));
@@ -29,8 +28,7 @@ export default class NetworkManager {
      * @param {Object} data - Connection data including server URL
      */
     connect(data = {}) {
-        // Use server URL from config or from data parameter
-        const serverUrl = data.serverUrl || NETWORK.getSecureWsUrl();
+        const serverUrl = data.serverUrl || NETWORK.WS_URL;
 
         try {
             console.log(`Connecting to multiplayer server at ${serverUrl}...`);
@@ -225,30 +223,22 @@ export default class NetworkManager {
             return;
         }
 
-        // Update position with interpolation
+        // Update position
         if (data.position) {
-            const targetPos = new THREE.Vector3(
+            remotePlane.mesh.position.set(
                 data.position.x,
                 data.position.y,
                 data.position.z
             );
-
-            // Interpolate position for smoother movement
-            remotePlane.mesh.position.lerp(targetPos, this.interpolationFactor);
         }
 
-        // Update rotation with interpolation
+        // Update rotation
         if (data.rotation) {
-            const targetRot = new THREE.Euler(
+            remotePlane.mesh.rotation.set(
                 data.rotation.x,
                 data.rotation.y,
                 data.rotation.z
             );
-
-            // Interpolate rotation for smoother movement
-            remotePlane.mesh.rotation.x += (targetRot.x - remotePlane.mesh.rotation.x) * this.interpolationFactor;
-            remotePlane.mesh.rotation.y += (targetRot.y - remotePlane.mesh.rotation.y) * this.interpolationFactor;
-            remotePlane.mesh.rotation.z += (targetRot.z - remotePlane.mesh.rotation.z) * this.interpolationFactor;
         }
 
         // Update speed for propeller animation
