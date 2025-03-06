@@ -3,14 +3,19 @@
  */
 
 export const NETWORK = {
+    // Server domain configuration
+    SERVER_DOMAIN: 'plane-zp6f.onrender.com',
+    SERVER_PORT: 8080,
+    
     // WebSocket server URL
-    // Use this constant whenever you need to connect to the WebSocket server
-    WS_URL: 'ws://plane-zp6f.onrender.com:8080',
+    get WS_URL() {
+        return `ws://${this.SERVER_DOMAIN}:${this.SERVER_PORT}`;
+    },
     
     // Function to get WebSocket URL with protocol based on page security
-    getSecureWsUrl: () => {
+    getSecureWsUrl: function() {
         const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        return `${protocol}//plane-zp6f.onrender.com:8080`;
+        return `${protocol}//${this.SERVER_DOMAIN}:${this.SERVER_PORT}`;
     }
 };
 
